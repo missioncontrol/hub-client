@@ -24,7 +24,7 @@
   "scripts": {
     "dev": "DEBUG=app node server/index.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server/index.js",
+    "start": "next build; NODE_ENV=production node server/index.js",
     "tunnel": "DEBUG=tunnel node server/tunnel.js"
   }
 }
