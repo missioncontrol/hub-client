@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Head, Item, FabButton } from '../components'
 import { get } from 'axios'
 
+const apiHost = process.env.API_HOST || 'http://localhost:3000'
 const isClientSide = typeof window !== 'undefined'
 
 export default class PackageList extends PureComponent {
@@ -12,7 +13,7 @@ export default class PackageList extends PureComponent {
     const password = process.env.HUB_PASSWORD || ''
 
     const reqOpts = isClientSide ? { withCredentials: true } : { auth: { username, password } }
-    const { data  } = await get('http://localhost:3000/doorman/packages', reqOpts)
+    const { data  } = await get(apiHost + '/doorman/packages', reqOpts)
 
     return {
       packages: data.packages
