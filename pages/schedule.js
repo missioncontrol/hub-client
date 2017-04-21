@@ -4,6 +4,7 @@ import Router from 'next/router'
 import { Head, Button } from '../components'
 import { post, get } from 'axios'
 
+const apiHost = process.env.API_HOST || 'http://localhost:3000'
 const username = process.env.HUB_USER || ''
 const password = process.env.HUB_PASSWORD || ''
 
@@ -41,7 +42,7 @@ export default class About extends PureComponent {
 
   componentDidMount () {
     // we need the packages if we come directly to /schedule
-    get('http://localhost:3000/doorman/packages', reqOpts)
+    get(apiHost + '/doorman/packages', reqOpts)
   }
 
   saveDate = ({ target }) => {
@@ -73,7 +74,7 @@ export default class About extends PureComponent {
     const reqData = Object.assign({}, {data: {time, date}}, reqOpts)
     console.log(reqData)
 
-    return post('http://localhost:3000/doorman/schedule', reqData)
+    return post(apiHost + '/doorman/schedule', reqData)
       .then(res => Router.push({pathname: '/finish', query: { error: false }}))
       .catch(err => {
         console.log(err.response.data)
