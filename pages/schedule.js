@@ -4,12 +4,7 @@ import Router from 'next/router'
 import { Head, Button } from '../components'
 import { post, get } from 'axios'
 
-const apiHost = process.env.API_HOST || 'http://localhost:3000'
-const username = process.env.HUB_USER || ''
-const password = process.env.HUB_PASSWORD || ''
-
 const isClientSide = typeof window !== 'undefined'
-const reqOpts = isClientSide ? { withCredentials: true } : { auth: { username, password } }
 
 export default class About extends PureComponent {
 
@@ -24,8 +19,18 @@ export default class About extends PureComponent {
     }
 
     const times = [6, 8, 10]
+    
+    const apiHost = process.env.API_HOST || 'http://localhost:3000'
+    const username = process.env.HUB_USER || ''
+    const password = process.env.HUB_PASSWORD || ''
+
+    const reqOpts = isClientSide ? { withCredentials: true } : { auth: { username, password } }
 
     return {
+      apiHost,
+      username,
+      password,
+      reqOpts,
       times,
       dates
     }
@@ -41,6 +46,7 @@ export default class About extends PureComponent {
   }
 
   componentDidMount () {
+    const { apiHost, reqOpts } = this.props
     // we need the packages if we come directly to /schedule
     get(apiHost + '/doorman/packages', reqOpts)
   }
@@ -66,6 +72,7 @@ export default class About extends PureComponent {
   }
 
   submit = () => {
+    const { apiHost, reqOpts } = this.props
     let { time, date } = this.state
 
     time = time ? time : this.props.times[0]
