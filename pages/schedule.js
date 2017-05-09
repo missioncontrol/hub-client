@@ -19,7 +19,7 @@ export default class About extends PureComponent {
     }
 
     const times = [6, 8, 10]
-    
+
     const apiHost = process.env.API_HOST || 'http://localhost:3000'
     const username = process.env.HUB_USER || ''
     const password = process.env.HUB_PASSWORD || ''
@@ -27,6 +27,7 @@ export default class About extends PureComponent {
     const reqOpts = isClientSide ? { withCredentials: true } : { auth: { username, password } }
 
     return {
+      isClientSide,
       apiHost,
       username,
       password,
@@ -46,9 +47,11 @@ export default class About extends PureComponent {
   }
 
   componentDidMount () {
-    const { apiHost, reqOpts } = this.props
+    const { apiHost, reqOpts, isClientSide, } = this.props
     // we need the packages if we come directly to /schedule
-    get(apiHost + '/doorman/packages', reqOpts)
+    let api = isClientSide ? 'http://hub.mission.party/' : apiHost
+
+    get(api + '/doorman/packages', reqOpts)
   }
 
   saveDate = ({ target }) => {
