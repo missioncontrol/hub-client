@@ -13,7 +13,10 @@ export default class PackageList extends PureComponent {
     const password = process.env.HUB_PASSWORD || ''
 
     const reqOpts = isClientSide ? { withCredentials: true } : { auth: { username, password } }
-    const { data  } = await get(apiHost + '/doorman/packages', reqOpts)
+
+    let api = isClientSide ? 'http://hub.mission.party' : apiHost
+
+    const { data  } = await get(api + '/doorman/packages', reqOpts)
 
     return {
       packages: data.packages
