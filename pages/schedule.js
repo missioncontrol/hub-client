@@ -49,7 +49,7 @@ export default class About extends PureComponent {
   componentDidMount () {
     const { apiHost, reqOpts, isClientSide, } = this.props
     // we need the packages if we come directly to /schedule
-    let api = isClientSide ? 'http://hub.mission.party/' : apiHost
+    let api = isClientSide ? 'http://hub.mission.party' : apiHost
 
     get(api + '/doorman/packages', reqOpts)
   }
